@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Apr 29 10:48:44 2020
+@author: Carlos
+"""
+
+#Librerías
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+    
+#Declaración de variables
+    html = urlopen("https://www.tripadvisor.es/Hotel_Review-g187507-d228530-Reviews-Melia_Maria_Pita-La_Coruna_Province_of_A_Coruna_Galicia.html")
+#Utilizando BeautifulSoap obtenemos el res del html de la página
+    res = BeautifulSoup(html.read(),"html5lib")
+#Si no encuentra la etiqueta title
+if res.title is None:
+        print("Tag not found")
+
+else:
+#Mostrar título por pantalla
+    print(res.title.text)
