@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Apr 29 10:48:04 2020
+@author: Carlos
+"""
+
+#Librerías
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+from urllib.error import HTTPError
+from urllib.error import URLError
+
+#Excepción ante cualquier error en el servicio web de Trypadvisor
+try:
+    
+#Declaración de variables
+    html = urlopen("https://www.tripadvisor.es/Hotel_Review-g187507-d228530-Reviews-Melia_Maria_Pita-La_Coruna_Province_of_A_Coruna_Galicia.html")
+except HTTPError as e:
+    print(e)
+except URLError:
+    print("Server down or incorrect domain")
+    
+else:
+#Utilizando BeautifulSoap obtenemos el res del html de la página
+    res = BeautifulSoup(html.read(),"html5lib")
+#Si no encuentra la etiqueta title
+if res.title is None:
+        print("Tag not found")
+
+else:
+#Mostrar título por pantalla
+    print(res.title.text)
+#Mostrar reviews
+for div_tag in res.find_all(class_="location-review-review-list-parts-ExpandableReview__reviewText--gOmRC", limit=5):
+    print(div_tag.text)
+
+html = '''
+<p>
+<div class="ssr-init-26f" data-ssrev-handlers="{&quot;load&quot;:
+    [3,&quot;@ta/hotels.hotel-review-about-csr&quot;,&quot;Description&quot;,
+    {&quot;loading&quot;:false,&quot;locationDescription&quot;:&quot;El Hotel 
+    Meliã Maria Pita está situado en el centro de A Coruña, en pleno Paseo 
+    Marítimo y frente a las playas de Orzán y Riazor, a menos de 10 min... 
+'''
